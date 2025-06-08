@@ -29,6 +29,17 @@ idf.py menuconfig  # Configure project via GUI
 
 ## Development Tools
 
+### Clean Build
+```bash
+idf.py fullclean  # Clean all build artifacts
+idf.py build      # Fresh build
+```
+
+### Size Analysis
+```bash
+idf.py size       # Analyze binary size and memory usage
+```
+
 ### WiFi C6 Firmware Update
 ```bash
 cd wifi_c6_fw
@@ -65,8 +76,10 @@ This is a streamlined implementation with direct hardware integration:
 ### Key Dependencies
 
 - **LVGL v9.2.2**: UI framework for display and touch input
-- **Mooncake Log v1.0.0**: Simple logging system
+- **Mooncake Log v1.0.0**: Simple logging system  
 - **M5Stack Tab5 BSP**: Board support package for hardware access
+- **INA226**: Power monitoring IC driver (direct hardware instance)
+- **RX8130**: Real-time clock driver (direct hardware instance)
 
 ### Hardware Support
 
@@ -80,8 +93,18 @@ This is a streamlined implementation with direct hardware integration:
 
 ### File Structure
 
-- `main/simple_main.cpp`: Main application entry point
+- `main/simple_main.cpp`: Main application entry point (single-file implementation)
 - `main/hal/utils/rx8130/`: RTC utility library
-- `components/`: ESP-IDF component libraries
-- `dependencies/`: External libraries fetched via `repos.json`
+- `components/`: ESP-IDF component libraries (camera, video, power monitoring, etc.)
+- `dependencies/`: External libraries fetched via `repos.json` (LVGL, logging)
 - `wifi_c6_fw/`: WiFi co-processor firmware
+- `lv_conf.h`: LVGL configuration file
+- `sdkconfig.defaults`: ESP-IDF default configuration
+
+### Important Implementation Details
+
+- All application logic is consolidated in `main/simple_main.cpp`
+- Hardware instances (INA226, RX8130) are declared as static globals
+- LVGL touch handling is implemented with direct BSP calls
+- No HAL abstraction - direct hardware function calls throughout
+- Simple UI displays system status, device info, and power readings
