@@ -1,4 +1,14 @@
-cmake_minimum_required(VERSION 3.10)
-project(MC_APP_BOILERPLATE VERSION 0.1.0 LANGUAGES C CXX)
+# For more information about build system see
+# https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html
+# The following five lines of boilerplate have to be in your project's
+# CMakeLists in this exact order for cmake to work correctly
+cmake_minimum_required(VERSION 3.5)
 
-include(platforms/desktop/CMakeLists.txt)
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+
+set(EXTRA_COMPONENT_DIRS 
+    "dependencies"
+    "components"
+) 
+
+project(m5stack_tab5)
